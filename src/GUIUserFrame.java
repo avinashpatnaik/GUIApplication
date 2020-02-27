@@ -1,84 +1,70 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.Component;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.GroupLayout;
-import static javax.swing.GroupLayout.Alignment.*; 
-import javax.swing.border.*; 
-import java.awt.Font;
 
-
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 
-import java.awt.Color;
+public class GUIUserFrame extends JFrame {
 
-public class GUIUserFrame extends JFrame{
-	
 	private ActionController actionController;
 	private StudentDetails selectedStudentDetails;
 	private int updatedIndex;
 
-	public GUIUserFrame() {  
-		final JFrame jFrame = new JFrame("Queue Status"); 
+	public GUIUserFrame() {
+		
 		final JList<StudentDetails> studentList = new JList<>();
 		final List<StudentDetails> studentDetailList = new ArrayList<>();
+		actionController = new ActionController(studentDetailList);
 
-		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		final JPanel p1 = new JPanel();
-		final JPanel p2 = new JPanel();
-		//p3 to hold buttons
-		final JPanel p3 = new JPanel();
-		//p4 to hold jlabel
-		final JPanel p4 = new JPanel();
-
-		final JLabel empty_indicatorJLabel = new JLabel("Queue is empty!");
-		final JLabel header = new JLabel("NAME");
-
+	
+		final JFrame jFrame = new JFrame("Queue Status");
+		final JLabel empty_indicatorJLabel = new JLabel("Queue is empty!", SwingConstants.CENTER);
+		final JLabel header = new JLabel("N  A  M  E", SwingConstants.CENTER);
 		final JLabel indicator = new JLabel("Red text means paused users");
+		final JScrollPane tablePane = new JScrollPane(studentList);
 
+		final JPanel panel1 = new JPanel();
+		final JPanel panel2 = new JPanel();
+		final JPanel panel3 = new JPanel();
+		final JPanel panel4 = new JPanel();
+		
 		final JButton addEntry = new JButton("AddEntry");
 		final JButton pauseEntry = new JButton("PauseEntry");
+		final JButton unpauseEntry = new JButton("UnpauseEntry");
+		final JButton removeEntry = new JButton("RemoveEntry");
+
 		pauseEntry.setEnabled(false);
 		pauseEntry.setFocusable(false);
-		final JButton unpauseEntry = new JButton("UnpauseEntry");
 		unpauseEntry.setEnabled(false);
 		unpauseEntry.setFocusable(false);
-		final JButton removeEntry = new JButton("RemoveEntry");
 		removeEntry.setEnabled(false);
 		removeEntry.setFocusable(false);
 
-		p3.add(addEntry);
-		p3.add(pauseEntry);
-		p3.add(unpauseEntry);
-		p3.add(removeEntry);
-		p3.setLayout(new FlowLayout(FlowLayout.CENTER));
-		p4.add(indicator);
 		p1.add(p3);
 		p1.add(p4);
-		p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
-		
-       
-      
+		panel3.add(addEntry);
+		panel3.add(pauseEntry);
+		panel3.add(unpauseEntry);
+		panel1.add(panel4);
+		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
+		panel1.setBorder(new EmptyBorder(10, 10, 10, 10));
 		final ListSelectionListener listSelectionListener = new ListSelectionListener() {
 
 			@Override
@@ -104,11 +90,11 @@ public class GUIUserFrame extends JFrame{
 				}
 			}
 		};
-
 		studentList.addListSelectionListener(listSelectionListener);
 		
-		actionController = new ActionController(studentDetailList);
 		studentList.setCellRenderer(new PausedCellRenderer(actionController));
+		studentList.setModel(actionController);
+
 		final ActionListener actionListener = new ButtonActionListeners(actionController);
 		addEntry.addActionListener(actionListener);
 		removeEntry.addActionListener(actionListener);
@@ -150,61 +136,31 @@ public class GUIUserFrame extends JFrame{
 	    jFrame.add(p2, BorderLayout.CENTER);
 	    jFrame.add(p1, BorderLayout.NORTH);
 	    jFrame.add(empty_indicatorJLabel, BorderLayout.SOUTH);
-	    jFrame.addWindowListener(new WindowListener() {
 
 			@Override
 			public void windowOpened(final WindowEvent e) {
 				// TODO Auto-generated method stub
 
-			}
+		tablePane.setPreferredSize(new Dimension(350, 150));
 
-			@Override
-			public void windowIconified(final WindowEvent e) {
-				// TODO Auto-generated method stub
+		panel2.add(tablePane);
 
-			}
+		final Font font = new Font(Font.SANS_SERIF, Font.BOLD, 20);
+		header.setFont(font);
+		header.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+		tablePane.setViewportView(studentList);
+		tablePane.setColumnHeaderView(header);
 
-			@Override
-			public void windowDeiconified(final WindowEvent e) {
-				// TODO Auto-generated method stub
+		jFrame.add(panel1);
+		jFrame.add(panel2, BorderLayout.CENTER);
+		jFrame.add(panel1, BorderLayout.NORTH);
+		jFrame.add(empty_indicatorJLabel, BorderLayout.SOUTH);
+		empty_indicatorJLabel.setBorder(new EmptyBorder(10, 5, 30, 5));
 
-			}
+		jFrame.setSize(500, 350);
+		jFrame.setVisible(true);
+		jFrame.setLocationRelativeTo(null);
+		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-			@Override
-			public void windowDeactivated(final WindowEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowClosing(final WindowEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowClosed(final WindowEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowActivated(final WindowEvent e) {
-				// TODO Auto-generated method stub
-
-				if (studentList.getModel().getSize() == 0) {
-					empty_indicatorJLabel.setVisible(true);
-				} else {
-					empty_indicatorJLabel.setVisible(false);
-				}
-
-			}
-		});
-
-		
-	    jFrame.setSize(500,300);  
-	    jFrame.setVisible(true);
-	    jFrame.setLocationRelativeTo(null);
-
-}
+	}
 }

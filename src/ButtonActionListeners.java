@@ -12,7 +12,6 @@ public class ButtonActionListeners implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getSource().toString());
 		final ActionFrame actionFrame = new ActionFrame(e.getActionCommand());
 		actionFrame.setCallBack(componentListener);
 		actionFrame.setVisible(true);

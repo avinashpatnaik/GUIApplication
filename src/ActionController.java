@@ -3,31 +3,21 @@ import java.util.List;
 import javax.swing.AbstractListModel;
 import javax.swing.event.ListSelectionListener;
 
-public class ActionController extends AbstractListModel implements ComponentListener{
-	
+public class ActionController extends AbstractListModel implements ComponentListener {
+
 	protected List<StudentDetails> studentDetailsList;
 	protected StudentDetails removalEntry, entryToBePaused, entryToBeUnPaused;
 	ListSelectionListener listSelectionListener;
 	int updatedIndex;
-	
+
 	public ActionController(List<StudentDetails> studentDetailsList) {
 		this.studentDetailsList = studentDetailsList;
 	}
-	
-	@Override
-	public StudentDetails getElementAt(int index) {
-		return studentDetailsList.get(index);
-	}
 
-	@Override
-	public int getSize() {
-		return studentDetailsList.size();
-	}
-	
 	public void setUpdatedIndex(int index) {
 		updatedIndex = index;
 	}
-	
+
 	public void setQueueListListenerCallBack(final ListSelectionListener listSelectionListener) {
 		this.listSelectionListener = listSelectionListener;
 	}
@@ -43,30 +33,39 @@ public class ActionController extends AbstractListModel implements ComponentList
 		removalEntry = getElementAt(updatedIndex);
 		studentDetailsList.remove(removalEntry);
 		fireContentsChanged(removalEntry, getSize(), getSize());
-		listSelectionListener.valueChanged(null); 
+		listSelectionListener.valueChanged(null);
 	}
 
 	@Override
 	public void pauseEntry(String sessionPassword) {
 		entryToBePaused = getElementAt(updatedIndex);
-		if(!entryToBePaused.isPaused()) {
+		if (!entryToBePaused.isPaused()) {
 			entryToBePaused.setPaused(true);
 		}
 		fireContentsChanged(entryToBePaused, getSize(), getSize());
 		listSelectionListener.valueChanged(null);
-		
+
 	}
 
 	@Override
 	public void unpauseEntry(String sessionPassword) {
 		entryToBePaused = getElementAt(updatedIndex);
 		System.out.println(entryToBePaused.getName());
-		System.out.println("Came here though");
-		if(entryToBePaused.isPaused()) {
-			System.out.println("Came here");
+		if (entryToBePaused.isPaused()) {
 			entryToBePaused.setPaused(false);
 		}
 		fireContentsChanged(entryToBePaused, getSize(), getSize());
-		listSelectionListener.valueChanged(null); 
+		listSelectionListener.valueChanged(null);
 	}
+	
+	@Override
+	public StudentDetails getElementAt(int index) {
+		return studentDetailsList.get(index);
+	}
+
+	@Override
+	public int getSize() {
+		return studentDetailsList.size();
+	}
+
 }
