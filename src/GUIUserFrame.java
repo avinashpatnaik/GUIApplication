@@ -33,11 +33,10 @@ import java.awt.Color;
 
 public class GUIUserFrame extends JFrame{
 	
-	public ActionController actionController;
-	public StudentDetails selectedStudentDetails;
-	public int updatedIndex;
+	private ActionController actionController;
+	private StudentDetails selectedStudentDetails;
+	private int updatedIndex;
 
-	
 	public GUIUserFrame() {  
 		final JFrame jFrame = new JFrame("Queue Status"); 
 		final JList<StudentDetails> studentList = new JList<>();
@@ -50,8 +49,7 @@ public class GUIUserFrame extends JFrame{
 
 		final JLabel empty_indicatorJLabel = new JLabel("Queue is empty!");
 		final JLabel header = new JLabel("NAME");
-		final JLabel indicator = new JLabel("Red == paused");
-		final boolean empty = false;
+		final JLabel indicator = new JLabel("Red == Paused");
 
 		final JButton addEntry = new JButton("AddEntry");
 		final JButton pauseEntry = new JButton("PauseEntry");
@@ -142,7 +140,6 @@ public class GUIUserFrame extends JFrame{
 		studentList.setLayoutOrientation(JList.VERTICAL);
 		JScrollPane tablePane = new JScrollPane(studentList);
 		tablePane.setPreferredSize(new Dimension(300, 150));
-//		indicator.setPreferredSize(new Dimension(300,50));
 
 		p2.add(tablePane);
 		
@@ -155,12 +152,12 @@ public class GUIUserFrame extends JFrame{
 	    tablePane.setColumnHeaderView(header);
 
 
-		jFrame.add(p1);
-		jFrame.setLocationRelativeTo(null);
-		jFrame.add(p2, BorderLayout.CENTER);
-		jFrame.add(p1, BorderLayout.NORTH);
-		jFrame.add(empty_indicatorJLabel, BorderLayout.SOUTH);
-		jFrame.addWindowListener(new WindowListener() {
+	    jFrame.add(p1);
+	    jFrame.setLocationRelativeTo(null);
+	    jFrame.add(p2, BorderLayout.CENTER);
+	    jFrame.add(p1, BorderLayout.NORTH);
+	    jFrame.add(empty_indicatorJLabel, BorderLayout.SOUTH);
+	    jFrame.addWindowListener(new WindowListener() {
 
 			@Override
 			public void windowOpened(final WindowEvent e) {
@@ -212,7 +209,7 @@ public class GUIUserFrame extends JFrame{
 		});
 
 		
-		jFrame.setSize(500,300);  
+	    jFrame.setSize(500,300);  
 	    jFrame.setVisible(true);
 	    jFrame.setLocationRelativeTo(null);
 
