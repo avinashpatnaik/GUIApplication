@@ -47,10 +47,14 @@ public class GUIUserFrame extends JFrame{
 
 		final JPanel p1 = new JPanel();
 		final JPanel p2 = new JPanel();
+		//p3 to hold buttons
+		final JPanel p3 = new JPanel();
+		//p4 to hold jlabel
+		final JPanel p4 = new JPanel();
 
 		final JLabel empty_indicatorJLabel = new JLabel("Queue is empty!");
 		final JLabel header = new JLabel("NAME");
-		final JLabel indicator = new JLabel("Red == paused");
+		final JLabel indicator = new JLabel("Red text means paused users");
 		final boolean empty = false;
 
 		final JButton addEntry = new JButton("AddEntry");
@@ -64,29 +68,17 @@ public class GUIUserFrame extends JFrame{
 		removeEntry.setEnabled(false);
 		removeEntry.setFocusable(false);
 
-		p1.add(addEntry);
-		p1.add(pauseEntry);
-		p1.add(unpauseEntry);
-		p1.add(removeEntry);
-		p1.add(indicator);
-		GroupLayout groupLayout = new GroupLayout(p1);
-		groupLayout.setAutoCreateGaps(true);  
-        groupLayout.setAutoCreateContainerGaps(true);  
-        p1.setLayout(groupLayout);  
+		p3.add(addEntry);
+		p3.add(pauseEntry);
+		p3.add(unpauseEntry);
+		p3.add(removeEntry);
+		p3.setLayout(new FlowLayout(FlowLayout.CENTER));
+		p4.add(indicator);
+		p1.add(p3);
+		p1.add(p4);
+		p1.setLayout(new BoxLayout(p1, BoxLayout.Y_AXIS));
 		
-        groupLayout.setVerticalGroup(groupLayout.createSequentialGroup()
-        		.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(addEntry)
-            			.addComponent(pauseEntry)
-            			.addComponent(unpauseEntry)
-            			.addComponent(removeEntry))
-        		.addComponent(indicator)
-        		);
-        groupLayout.setHorizontalGroup(groupLayout.createSequentialGroup()
-        		.addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-        				.addComponent(addEntry)
-        				.addComponent(indicator))
-        		.addComponent(pauseEntry).addComponent(unpauseEntry)
-        		.addComponent(removeEntry));
+       
       
 		final ListSelectionListener listSelectionListener = new ListSelectionListener() {
 
